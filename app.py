@@ -33,24 +33,19 @@ elif Instruct_Option == "Customise Instruction":
 
 input_text = st.text_area("Enter the vernacular input source and click **Let\'s Go :rocket:**")
 if st.button("Let\'s Go! :rocket:") and input_text.strip() != "":
-  
-  try:
-    with st.spinner("Running AI Model..."):
+  with st.spinner("Running AI Model..."):
+    start = time.time()
+    prompt = instruction + "\n\n" + input_text
+    payload = {"messages": [{"content": "You are a helpful and informative assistant.", "role": "system"},
+                            {"content": instruction + "\n\n" + input_text, "role": "user"}],
+               "model": friendli_model}
+    headers = {"Authorization": f"Bearer {friendli_token}", "Content-Type": "application/json"}
+    response = requests.request("POST", url, json=payload, headers=headers)
+    response_json = response.json()
+    output_text = response_json["choices"][0]["message"]["content"]            
+    end = time.time()
 
-      start = time.time()
-      prompt = instruction + "\n\n" + raw_text
-      payload = {"messages": [{"content": "You are a helpful and informative assistant.", "role": "system"},
-                              {"content": instruction + "\n\n" + input_text, "role": "user"}],
-                 "model": friendli_model}
-      headers = {"Authorization": f"Bearer {friendli_token}", "Content-Type": "application/json"}
-      response = requests.request("POST", url, json=payload, headers=headers)
-      response_json = response.json()
-      output_text = response_json["choices"][0]["message"]["content"]            
-      end = time.time()
-
-      with st.expander("Output", expanded = True):
-        st.write(output_text)
-        st_copy_to_clipboard(output_text)
+    with st.expander("Output", expanded = True):
+      st.write(output_text)
+      st_copy_to_clipboard(output_text)
   
-  except:
-    st.error(" Error occurred when running model", icon="🚨")
