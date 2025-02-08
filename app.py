@@ -43,6 +43,8 @@ if st.button("Let\'s Go! :rocket:") and input_text.strip() != "":
     response = requests.request("POST", friendli_url, json=payload, headers=headers)
     end = time.time()
 
+    st.write(friendli_url, friendli_model, friendli_token)
+    
     st.write(response.text)
     response_json = response.json()
     output_text = response_json["choices"][0]["message"]["content"]            
