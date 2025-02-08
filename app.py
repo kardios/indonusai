@@ -48,9 +48,9 @@ if st.button("Let\'s Go! :rocket:") and input_text.strip() != "":
       output_text = response_json["choices"][0]["message"]["content"]            
       end = time.time()
 
-    st.expander("Output", expanded = True):
-      st.write(output_text)
-      st_copy_to_clipboard(output_text)
+      with st.expander("Output", expanded = True):
+        st.write(output_text)
+        st_copy_to_clipboard(output_text)
   
   except:
     st.error(" Error occurred when running model", icon="🚨")
