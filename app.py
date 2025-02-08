@@ -14,8 +14,8 @@ bot = telebot.TeleBot(os.environ['BOT_TOKEN'])
 client_openai = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
 
 friendli_url = "https://api.friendli.ai/dedicated/v1/chat/completions"
-friendli_model = os.environ['FRIENDLI_MODEL_CODE']
-friendli_token = os.environ['FRIENDLI_TOKEN_CODE']
+friendli_model = os.environ['FRIENDLI_MODEL']
+friendli_token = os.environ['FRIENDLI_TOKEN']
 
 st.set_page_config(page_title="Indochina and Nusantara AI", page_icon=":earth_asia:")
 st.write("**Indochina and Nusantara AI** :earth_asia:")
