@@ -19,3 +19,5 @@ friendli_token = os.environ['FRIENDLI_TOKEN_CODE']
 
 st.set_page_config(page_title="Indochina and Nusantara AI", page_icon=":earth_asia:")
 st.write("**Indochina and Nusantara AI** :earth_asia:")
+st.image("sea-satellite-map.jpg")
+Instruct_Option = st.selectbox("What are your instructions?", ('Bullet Point Summary', 'Comprehensive Evaluation', 'Identify Nuances', 'Custom'))
