@@ -32,10 +32,7 @@ elif Instruct_Option == "Customise Instruction":
   instruction = "You are my reading assistant. You will read the input I provide." + st.text_input("Customise your own unique prompt:", "Identify the language used and rate the quality of the language upon 10.")
 
 input_text = st.text_area("Enter the vernacular input source and click **Let\'s Go :rocket:**")
-if st.button("Let\'s Go! :rocket:"):
-  raw_text = input_text + "\n..."
-
-if raw_text.strip()!="":
+if st.button("Let\'s Go! :rocket:") and input_text.strip() != "":
   try:
     with st.spinner("Running AI Model..."):
       start = time.time()
