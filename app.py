@@ -40,7 +40,7 @@ if st.button("Let\'s Go! :rocket:") and input_text.strip() != "":
                             {"content": instruction + "\n\n" + input_text, "role": "user"}],
                "model": friendli_model}
     headers = {"Authorization": f"Bearer {friendli_token}", "Content-Type": "application/json"}
-    response = requests.request("POST", url, json=payload, headers=headers)
+    response = requests.request("POST", friendli_url, json=payload, headers=headers)
     response_json = response.json()
     output_text = response_json["choices"][0]["message"]["content"]            
     end = time.time()
