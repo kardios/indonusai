@@ -35,8 +35,8 @@ input_text = st.text_area("Enter the vernacular input source and click **Let\'s 
 if st.button("Let\'s Go! :rocket:") and input_text.strip() != "":
   with st.spinner("Running AI Model..."):
     start = time.time()
-    prompt = instruction + "\n\n" + input_text
-    payload = {"messages": [{"content": "You are a helpful and informative assistant.", "role": "system"},
+    prompt = instruction + "\n\n<input>\n\n" + input_text + "</input>"
+    payload = {"messages": [{"content": "You are a helpful and informative assistant. Your output is always in English language.", "role": "system"},
                             {"content": instruction + "\n\n" + input_text, "role": "user"}],
                "model": friendli_model}
     headers = {"Authorization": f"Bearer {friendli_token}", "Content-Type": "application/json"}
