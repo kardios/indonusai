@@ -20,4 +20,28 @@ friendli_token = os.environ['FRIENDLI_TOKEN_CODE']
 st.set_page_config(page_title="Indochina and Nusantara AI", page_icon=":earth_asia:")
 st.write("**Indochina and Nusantara AI** :earth_asia:")
 st.image("sea-satellite-map.jpg")
-Instruct_Option = st.selectbox("What are your instructions?", ('Bullet Point Summary', 'Comprehensive Evaluation', 'Identify Nuances', 'Custom'))
+Instruct_Option = st.selectbox("What would you like to do?", ('Bullet Point Summary', 'Comprehensive Evaluation', 'Cultural Nuances', 'Customise Instruction'))
+
+if Instruct_Option == "Bullet Point Summary":
+  instruction = "You are my amazing research assistant and an expert in Southeast Asian languages. Your task is to read the text in the <input> tags and produce an English language summary. Identify the main ideas and key details, and condense them into concise bullet points. Recognize the overall structure of the text and create bullet points that reflect this structure. For the presentation of the output, start by identifying what language the input is in, followed by the bullet points. Present the points in a clear and organised way, and do not provide any titles."
+elif Instruct_Option == "Comprehensive evaluation":
+  instruction = "You are my reading assistant. You will read the input I provide. Comprehensively evaluate the input across four dimensions.\n\nSummary: Provide a concise overview capturing the main ideas and key details of the text.\n\nBalance: Assess whether the text presents multiple viewpoints, and identify any biased, missing, or opposing perspectives.\n\nSignificance: Explain why the content of the text is important in a broader context, and discuss how it relates to larger trends or issues.\n\nImplications: Highlight the potential outcomes or consequences stemming from the findings or arguments in the text."
+elif Instruct_Option == "Cultural Nuances":
+  instruction = "Analyze the vernacular text provided below and identify the cultural nuances it reflects. Present your output in bullet points."
+elif Instruct_Option == "Customise Instruction":
+  instruction = "You are my reading assistant. You will read the input I provide." + st.text_input("Customise your own unique prompt:", "Identify the language used and rate the quality of the language upon 10.")
+
+input_text = st.text_area("Enter the vernacular input source and click **Let\'s Go :rocket:**")
+if st.button("Let\'s Go! :rocket:"):
+  raw_text = input_text + "\n..."
+
+if raw_text.strip()!="":
+  try:
+    with st.spinner("Running AI Model..."):
+      start = time.time()
+      prompt = instruction + "\n\n" + raw_text
+      end = time.time()
+
+    #st_copy_to_clipboard(output_text)
+  except:
+    st.error(" Error occurred when running model", icon="🚨")
