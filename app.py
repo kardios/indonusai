@@ -2,7 +2,6 @@ import streamlit as st
 import requests
 import os
 import time
-import json
 import telebot
 from openai import OpenAI
 from st_copy_to_clipboard import st_copy_to_clipboard
