@@ -23,9 +23,9 @@ st.image("sea-satellite-map.jpg")
 Instruct_Option = st.selectbox("What would you like to do?", ('Bullet Point Summary', 'Comprehensive Evaluation', 'Cultural Nuances', 'Customise Instruction'))
 
 if Instruct_Option == "Bullet Point Summary":
-  instruction = "You are my amazing research assistant and an expert in Southeast Asian languages. Your task is to read the text in the <input> tags and produce an English language summary. Identify the main ideas and key details, and condense them into concise bullet points. Recognize the overall structure of the text and create bullet points that reflect this structure. For the presentation of the output, start by identifying what language the input is in, followed by the bullet points. Present the points in a clear and organised way, and do not provide any titles."
+  instruction = "You are an expert in Southeast Asian languages and excellent at summarizing information. Your task is to read the text in the <input> tags and produce an English language summary. Identify the main ideas and key details, and condense them into concise bullet points. Recognize the overall structure of the text and create bullet points that reflect this structure. For the presentation of the output, start by identifying what language the input is in, followed by the bullet points. Present the points in a clear and organised way, and do not provide any titles."
 elif Instruct_Option == "Comprehensive evaluation":
-  instruction = "You are my reading assistant. You will read the input I provide. Comprehensively evaluate the input across four dimensions.\n\nSummary: Provide a concise overview capturing the main ideas and key details of the text.\n\nBalance: Assess whether the text presents multiple viewpoints, and identify any biased, missing, or opposing perspectives.\n\nSignificance: Explain why the content of the text is important in a broader context, and discuss how it relates to larger trends or issues.\n\nImplications: Highlight the potential outcomes or consequences stemming from the findings or arguments in the text."
+  instruction = "You will read the input I provide. Comprehensively evaluate the input across four dimensions.\n\nSummary: Provide a concise overview capturing the main ideas and key details of the text.\n\nBalance: Assess whether the text presents multiple viewpoints, and identify any biased, missing, or opposing perspectives.\n\nSignificance: Explain why the content of the text is important in a broader context, and discuss how it relates to larger trends or issues.\n\nImplications: Highlight the potential outcomes or consequences stemming from the findings or arguments in the text."
 elif Instruct_Option == "Cultural Nuances":
   instruction = "Analyze the vernacular text provided below and identify the cultural nuances it reflects. Present your output in bullet points."
 elif Instruct_Option == "Customise Instruction":
@@ -33,12 +33,24 @@ elif Instruct_Option == "Customise Instruction":
 
 input_text = st.text_area("Enter the vernacular input source and click **Let\'s Go :rocket:**")
 if st.button("Let\'s Go! :rocket:") and input_text.strip() != "":
+  
   try:
     with st.spinner("Running AI Model..."):
+
       start = time.time()
       prompt = instruction + "\n\n" + raw_text
+      payload = {"messages": [{"content": "You are a helpful and informative assistant.", "role": "system"},
+                              {"content": instruction + "\n\n" + input_text, "role": "user"}],
+                 "model": friendli_model}
+      headers = {"Authorization": f"Bearer {friendli_token}", "Content-Type": "application/json"}
+      response = requests.request("POST", url, json=payload, headers=headers)
+      response_json = response.json()
+      output_text = response_json["choices"][0]["message"]["content"]            
       end = time.time()
 
-    #st_copy_to_clipboard(output_text)
+    st.expander("Output", expanded = True):
+      st.write(output_text)
+      st_copy_to_clipboard(output_text)
+  
   except:
     st.error(" Error occurred when running model", icon="🚨")
