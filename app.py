@@ -26,9 +26,7 @@ if st.button("Check whether SEA-LION is running"):
   try:
     response = client_friend.chat.completions.create(model = friendli_model,
                                                      messages=[{"role": "system", "content": "Respond with a warm and friendly greeting!"},
-                                                               {"role": "user", "content": "Is the model working?"}],
-                                                     temperature = 0,
-                                                     max_tokens = 48)
+                                                               {"role": "user", "content": "Is the model working?"}])
     st.write(response.text)
   except:
     st.error("Unavailable. Please try again after one minute.")
