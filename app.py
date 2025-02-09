@@ -16,7 +16,7 @@ friendli_token = os.environ['FRIENDLI_TOKEN']
 
 # Retrieve the API key from the environment variables
 client_openai = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
-client_friend = OpenAI(api_key=friendli_token, base_url = friendli_url)
+client_groqai = OpenAI(api_key=os.environ("GROQAI_API_KEY"), url="https://api.groq.com/openai/v1")
 
 st.set_page_config(page_title="Indochina and Nusantara AI", page_icon=":earth_asia:")
 st.write("**Indochina and Nusantara AI** :earth_asia:")
@@ -102,4 +102,15 @@ if st.button("Let\'s Go! :rocket:") and input_text.strip() != "":
       st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
       st_copy_to_clipboard(output_text)
 
-    st_copy_to_clipboard(combined_output)
+    start = time.time()
+    response = client_groqai.chat.completions.create(model="gemma2-9b-it", messages=[{"role": "system", "content": "You are a helpful and informative assistant. Your output is always in English language."},
+                                                                                     {"role": "user", "content": prompt}], temperature=0)
+    output_text = response.choices[0].message.content
+    combined_output = combined_output + "<answer_gemma2-9b-it>\n\n" + output_text + "\n\n</answer_gemma2-9b-it>\n\n" 
+    end = time.time()
+    with st.expander("Output - gemma2-9b-it", expanded = True):
+      st.write(output_text)
+      st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
+      st_copy_to_clipboard(output_text)
+    
+  st_copy_to_clipboard(combined_output)
