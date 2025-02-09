@@ -28,8 +28,8 @@ if st.button("Check whether SEA-LION is running"):
     payload = {"messages": [{"content": "Your job is to introduce yourself as the SEA-LION model. Your output is always in English language. Respond to the user with a warm and friendly greeting.", "role": "system"},
                             {"content": "Is the SEA-LION model working?", "role": "user"}],
                "model": friendli_model,
-               "max_tokens": 100,
-               "temperature": 0,
+               "max_tokens": 48,
+               "temperature": 1,
                "top_p": 0.8}
     headers = {"Authorization": f"Bearer {friendli_token}", "Content-Type": "application/json"}
     response = requests.request("POST", friendli_url, json=payload, headers=headers)
