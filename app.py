@@ -82,5 +82,4 @@ if st.button("Let\'s Go! :rocket:") and input_text.strip() != "":
       st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
       st_copy_to_clipboard(output_text)
 
-    st_copy_to_clipboard(output_text)
-    
+    st_copy_to_clipboard(combined_output)
