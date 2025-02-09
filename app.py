@@ -38,7 +38,7 @@ if st.button("Check whether SEA-LION is running"):
     st.write(output_text)
     end = time.time()
   except:
-    st.error("Unavailable. Please try again after one minute.")
+    st.error("Unavailable. Please try again after one minute. Service shuts down after five minutes of inactivity.")
     
 Instruct_Option = st.selectbox("What would you like to do?", ('Bullet Point Summary', 'Comprehensive Evaluation', 'Cultural Nuances', 'Customise Instruction'))
 
