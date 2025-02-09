@@ -47,7 +47,8 @@ if st.button("Let\'s Go! :rocket:") and input_text.strip() != "":
   with st.spinner("Running AI Model..."):
 
     prompt = instruction + "\n\n<input>\n\n" + input_text + "</input>"
-
+    combined_output = ""
+    
     start = time.time()
     payload = {"messages": [{"content": "You are a helpful and informative assistant. Your output is always in English language.", "role": "system"},
                             {"content": prompt, "role": "user"}],
@@ -58,7 +59,8 @@ if st.button("Let\'s Go! :rocket:") and input_text.strip() != "":
     headers = {"Authorization": f"Bearer {friendli_token}", "Content-Type": "application/json"}
     response = requests.request("POST", friendli_url, json=payload, headers=headers)
     response_json = response.json()
-    output_text = response_json["choices"][0]["message"]["content"]            
+    output_text = response_json["choices"][0]["message"]["content"]      
+    combined_output = "<answer_sea-lion>\n\n" + output_text + "\n\n</answer_sea-lion>\n\n"
     end = time.time()
 
     #with st.expander("Response", expanded = False):
@@ -73,8 +75,12 @@ if st.button("Let\'s Go! :rocket:") and input_text.strip() != "":
     response = client_openai.chat.completions.create(model="gpt-4o-2024-11-20", messages=[{"role": "system", "content": "You are a helpful and informative assistant. Your output is always in English language."},
                                                                                           {"role": "user", "content": prompt}], temperature=0)
     output_text = response.choices[0].message.content
+    combined_output = "<answer_gpt-4o>\n\n" + output_text + "\n\n</answer_gpt-4o>\n\n"
     end = time.time()
     with st.expander("Output - gpt-4o-2024-11-20", expanded = True):
       st.write(output_text)
       st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
       st_copy_to_clipboard(output_text)
+
+    st_copy_to_clipboard(output_text)
+    
