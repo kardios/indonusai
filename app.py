@@ -43,13 +43,12 @@ if st.button("Let\'s Go! :rocket:") and input_text.strip() != "":
                "model": friendli_model}
     headers = {"Authorization": f"Bearer {friendli_token}", "Content-Type": "application/json"}
     response = requests.request("POST", friendli_url, json=payload, headers=headers)
+    response_json = response.json()
+    output_text = response_json["choices"][0]["message"]["content"]            
     end = time.time()
 
     #with st.expander("Response", expanded = False):
     #  st.write(response.text)
-    
-    response_json = response.json()
-    output_text = response_json["choices"][0]["message"]["content"]            
 
     with st.expander("Output - gemma2-9b-cpt-sea-lionv3-instruct", expanded = True):
       st.write(output_text)
@@ -60,6 +59,7 @@ if st.button("Let\'s Go! :rocket:") and input_text.strip() != "":
     response = client_openai.chat.completions.create(model="gpt-4o-2024-11-20", messages=[{"role": "system", "content": "You are a helpful and informative assistant. Your output is always in English language."},
                                                                                           {"role": "user", "content": prompt}], temperature=0)
     output_text = response.choices[0].message.content
+    end = time.time()
     with st.expander("Output - gpt-4o-2024-11-20", expanded = True):
       st.write(output_text)
       st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
