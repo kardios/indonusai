@@ -103,10 +103,10 @@ if st.button("Let\'s Go! :rocket:") and input_text.strip() != "":
       st_copy_to_clipboard(output_text)
 
     start = time.time()
-    response = client_groqai.chat.completions.create(model="gemma2-9b-it", messages=[{"role": "system", "content": "You are a helpful and informative assistant. Your output is always in English language."},
+    response = client_groqai.chat.completions.create(model="llama-3.1-8b-instant", messages=[{"role": "system", "content": "You are a helpful and informative assistant. Your output is always in English language."},
                                                                                      {"role": "user", "content": prompt}], temperature=0)
     output_text = response.choices[0].message.content
-    combined_output = combined_output + "<answer_gemma2-9b-it>\n\n" + output_text + "\n\n</answer_gemma2-9b-it>\n\n" 
+    combined_output = combined_output + "<answer_groq>\n\n" + output_text + "\n\n</answer_groq>\n\n" 
     end = time.time()
     with st.expander("Output - gemma2-9b-it", expanded = True):
       st.write(output_text)
