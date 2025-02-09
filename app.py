@@ -40,7 +40,10 @@ if st.button("Let\'s Go! :rocket:") and input_text.strip() != "":
     start = time.time()
     payload = {"messages": [{"content": "You are a helpful and informative assistant. Your output is always in English language.", "role": "system"},
                             {"content": prompt, "role": "user"}],
-               "model": friendli_model}
+               "model": friendli_model,
+               "max_tokens": 8192,
+               "temperature": 0,
+               "top_p": 0.8}
     headers = {"Authorization": f"Bearer {friendli_token}", "Content-Type": "application/json"}
     response = requests.request("POST", friendli_url, json=payload, headers=headers)
     response_json = response.json()
