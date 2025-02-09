@@ -16,7 +16,7 @@ friendli_token = os.environ['FRIENDLI_TOKEN']
 
 # Retrieve the API key from the environment variables
 client_openai = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
-client_groqai = OpenAI(api_key=os.environ("GROQAI_API_KEY"), url="https://api.groq.com/openai/v1")
+client_groqai = OpenAI(api_key=os.environ['GROQAI_API_KEY']), url="https://api.groq.com/openai/v1")
 
 st.set_page_config(page_title="Indochina and Nusantara AI", page_icon=":earth_asia:")
 st.write("**Indochina and Nusantara AI** :earth_asia:")
