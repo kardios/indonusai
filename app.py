@@ -10,16 +10,24 @@ from st_copy_to_clipboard import st_copy_to_clipboard
 recipient_user_id = os.environ['RECIPIENT_USER_ID']
 bot = telebot.TeleBot(os.environ['BOT_TOKEN'])
 
-# Retrieve the API key from the environment variables
-client_openai = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
-
 friendli_url = "https://api.friendli.ai/dedicated/v1/chat/completions"
 friendli_model = os.environ['FRIENDLI_MODEL']
 friendli_token = os.environ['FRIENDLI_TOKEN']
 
+# Retrieve the API key from the environment variables
+client_openai = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
+client_friend = OpenAI(api_key=friendli_token, base_url = friendli_url)
+
 st.set_page_config(page_title="Indochina and Nusantara AI", page_icon=":earth_asia:")
 st.write("**Indochina and Nusantara AI** :earth_asia:")
 #st.image("sea-satellite-map.jpg")
+
+if st.button("Check whether SEA-LION is running"):
+  response = client_friend.chat.completions.create(model = friendli_model,
+                                                   messages=[{"role": "system", "content": "Respond with a warm and friendly greeting!"},
+                                                             {"role": "user", "content": "Is the model working?"}])
+  st.write(response.text)
+
 Instruct_Option = st.selectbox("What would you like to do?", ('Bullet Point Summary', 'Comprehensive Evaluation', 'Cultural Nuances', 'Customise Instruction'))
 
 if Instruct_Option == "Bullet Point Summary":
