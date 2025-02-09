@@ -24,10 +24,21 @@ Instruct_Option = st.selectbox("What would you like to do?", ('Bullet Point Summ
 
 if Instruct_Option == "Bullet Point Summary":
   instruction = "You are an expert in Southeast Asian languages and excellent at summarizing information. Your task is to read the text in the <input> tags and produce an English language summary. Identify the main ideas and key details, and condense them into concise bullet points. Recognize the overall structure of the text and create bullet points that reflect this structure. For the presentation of the output, start by identifying what language the input is in, followed by the bullet points. Present the points in a clear and organised way, and do not provide any titles."
+
 elif Instruct_Option == "Comprehensive Evaluation":
   instruction = "You will read the input I provide in the <input> tags. Comprehensively evaluate the input across four dimensions.\n\nSummary: Provide a concise overview capturing the main ideas and key details of the text.\n\nBalance: Assess whether the text presents multiple viewpoints, and identify any biased, missing, or opposing perspectives.\n\nSignificance: Explain why the content of the text is important in a broader context, and discuss how it relates to larger trends or issues.\n\nImplications: Highlight the potential outcomes or consequences stemming from the findings or arguments in the text."
+
 elif Instruct_Option == "Cultural Nuances":
-  instruction = "Analyze the vernacular text provided in the <input> tags and identify the cultural nuances it reflects. Present your output in bullet points."
+  instruction = """### CONTEXT
+You are a renowned expert in Southeast Asian history, culture, and society. Your role is to provide detailed insights into a vernacular language text.
+### TASK
+Analyze the vernacular text provided within the `<input>` tags by following these steps:
+- **Identify Cultural References:** Detect idiomatic expressions, slang, or colloquial language that allude to specific cultural practices, beliefs, or traditions.
+- **Examine Contextual Nuances:** Assess how historical, social, or regional influences are reflected in the text.
+- **Highlight Linguistic Choices:** Note any specific word choices or phrases that reveal aspects of cultural identity or traditional influences.
+### OUTPUT
+Present your findings as a series of clear, concise bullet points, with each point describing a distinct cultural nuance or reference."""
+
 elif Instruct_Option == "Customise Instruction":
   instruction = "You are my reading assistant. You will read the input I provide in the <input> tags." + st.text_input("Customise your own unique prompt:", "Identify the language used and rate the quality of the language upon 10.")
 
