@@ -48,10 +48,9 @@ if st.button("Let\'s Go! :rocket:") and input_text.strip() != "":
     #with st.expander("Response", expanded = False):
     #  st.write(response.text)
     
-    # response_json = response.json()
-    # output_text = response_json["choices"][0]["message"]["content"]            
+    response_json = response.json()
+    output_text = response_json["choices"][0]["message"]["content"]            
 
-    output_text = response.choices[0].message.content
     with st.expander("Output - gemma2-9b-cpt-sea-lionv3-instruct", expanded = True):
       st.write(output_text)
       st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
