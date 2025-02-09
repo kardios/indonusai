@@ -19,7 +19,7 @@ friendli_token = os.environ['FRIENDLI_TOKEN']
 
 st.set_page_config(page_title="Indochina and Nusantara AI", page_icon=":earth_asia:")
 st.write("**Indochina and Nusantara AI** :earth_asia:")
-st.image("sea-satellite-map.jpg")
+#st.image("sea-satellite-map.jpg")
 Instruct_Option = st.selectbox("What would you like to do?", ('Bullet Point Summary', 'Comprehensive Evaluation', 'Cultural Nuances', 'Customise Instruction'))
 
 if Instruct_Option == "Bullet Point Summary":
@@ -34,23 +34,34 @@ elif Instruct_Option == "Customise Instruction":
 input_text = st.text_area("Enter the vernacular input source and click **Let\'s Go :rocket:**")
 if st.button("Let\'s Go! :rocket:") and input_text.strip() != "":
   with st.spinner("Running AI Model..."):
-    start = time.time()
+
     prompt = instruction + "\n\n<input>\n\n" + input_text + "</input>"
+
+    start = time.time()
     payload = {"messages": [{"content": "You are a helpful and informative assistant. Your output is always in English language.", "role": "system"},
-                            {"content": instruction + "\n\n" + input_text, "role": "user"}],
+                            {"content": prompt, "role": "user"}],
                "model": friendli_model}
     headers = {"Authorization": f"Bearer {friendli_token}", "Content-Type": "application/json"}
     response = requests.request("POST", friendli_url, json=payload, headers=headers)
     end = time.time()
 
-    with st.expander("Response", expanded = False):
-      st.write(response.text)
+    #with st.expander("Response", expanded = False):
+    #  st.write(response.text)
     
-    response_json = response.json()
-    output_text = response_json["choices"][0]["message"]["content"]            
-  
-    with st.expander("Output", expanded = True):
+    # response_json = response.json()
+    # output_text = response_json["choices"][0]["message"]["content"]            
+
+    output_text = response.choices[0].message.content
+    with st.expander("Output - gemma2-9b-cpt-sea-lionv3-instruct", expanded = True):
       st.write(output_text)
       st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
       st_copy_to_clipboard(output_text)
-  
+
+    start = time.time()
+    response = client_openai.chat.completions.create(model="gpt-4o-2024-11-20", messages=[{"role": "system", "content": "You are a helpful and informative assistant. Your output is always in English language."},
+                                                                                          {"role": "user", "content": prompt}], temperature=0)
+    output_text = response.choices[0].message.content
+    with st.expander("Output - gpt-4o-2024-11-20", expanded = True):
+      st.write(output_text)
+      st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
+      st_copy_to_clipboard(output_text)
