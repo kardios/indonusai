@@ -103,14 +103,25 @@ if st.button("Let\'s Go! :rocket:") and input_text.strip() != "":
       st_copy_to_clipboard(output_text)
 
     start = time.time()
-    response = client_groqai.chat.completions.create(model="llama3-8b-8192", messages=[{"role": "system", "content": "You are a helpful and informative assistant. Your output is always in English language."},
+    response = client_groqai.chat.completions.create(model="gemma2-9b-it", messages=[{"role": "system", "content": "You are a helpful and informative assistant. Your output is always in English language."},
                                                                                      {"role": "user", "content": prompt}], temperature=0)
     output_text = response.choices[0].message.content
-    combined_output = combined_output + "<answer_groq>\n\n" + output_text + "\n\n</answer_groq>\n\n" 
+    combined_output = combined_output + "<answer_gemma2-9b-it>\n\n" + output_text + "\n\n</answer_gemma2-9b-it>\n\n" 
     end = time.time()
     with st.expander("Output - gemma2-9b-it", expanded = True):
       st.write(output_text)
       st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
       st_copy_to_clipboard(output_text)
-    
+
+    start = time.time()
+    response = client_groqai.chat.completions.create(model="llama3-8b-8192", messages=[{"role": "system", "content": "You are a helpful and informative assistant. Your output is always in English language."},
+                                                                                       {"role": "user", "content": prompt}], temperature=0)
+    output_text = response.choices[0].message.content
+    combined_output = combined_output + "<answer_llama3-8b-8192>\n\n" + output_text + "\n\n</answer_llama3-8b-8192>\n\n" 
+    end = time.time()
+    with st.expander("Output - llama3-8b-8192", expanded = True):
+      st.write(output_text)
+      st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
+      st_copy_to_clipboard(output_text)
+      
   st_copy_to_clipboard(combined_output)
