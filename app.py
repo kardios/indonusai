@@ -24,10 +24,19 @@ st.write("**Indochina and Nusantara AI** :earth_asia:")
 
 if st.button("Check whether SEA-LION is running"):
   try:
-    response = client_friend.chat.completions.create(model = friendli_model,
-                                                     messages=[{"role": "system", "content": "Respond with a warm and friendly greeting!"},
-                                                               {"role": "user", "content": "Is the model working?"}])
-    st.write(response.text)
+    start = time.time()
+    payload = {"messages": [{"content": "Your job is to introduce yourself as the SEA-LION model. Your output is always in English language. Respond to the user with a warm and friendly greeting.", "role": "system"},
+                            {"content": "Is the SEA-LION model working?", "role": "user"}],
+               "model": friendli_model,
+               "max_tokens": 100,
+               "temperature": 0,
+               "top_p": 0.8}
+    headers = {"Authorization": f"Bearer {friendli_token}", "Content-Type": "application/json"}
+    response = requests.request("POST", friendli_url, json=payload, headers=headers)
+    response_json = response.json()
+    output_text = response_json["choices"][0]["message"]["content"]      
+    st.write(output_text)
+    end = time.time()
   except:
     st.error("Unavailable. Please try again after one minute.")
     
