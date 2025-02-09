@@ -23,11 +23,16 @@ st.write("**Indochina and Nusantara AI** :earth_asia:")
 #st.image("sea-satellite-map.jpg")
 
 if st.button("Check whether SEA-LION is running"):
-  response = client_friend.chat.completions.create(model = friendli_model,
-                                                   messages=[{"role": "system", "content": "Respond with a warm and friendly greeting!"},
-                                                             {"role": "user", "content": "Is the model working?"}])
-  st.write(response.text)
-
+  try:
+    response = client_friend.chat.completions.create(model = friendli_model,
+                                                     messages=[{"role": "system", "content": "Respond with a warm and friendly greeting!"},
+                                                               {"role": "user", "content": "Is the model working?"}],
+                                                     temperature = 0,
+                                                     max_tokens = 48)
+    st.write(response.text)
+  except:
+    st.error("Unavailable. Please try again after one minute.")
+    
 Instruct_Option = st.selectbox("What would you like to do?", ('Bullet Point Summary', 'Comprehensive Evaluation', 'Cultural Nuances', 'Customise Instruction'))
 
 if Instruct_Option == "Bullet Point Summary":
